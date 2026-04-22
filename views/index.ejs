@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dreamr ✦ Dream Journal</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Raleway:wght@300;400;500;600&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="/css/style.css" />
+  <script src="https://js.puter.com/v2/"></script>
+</head>
+<body>
+
+  <div class="stars-container" id="stars-container"></div>
+
+  <!-- ── HEADER ── -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo-block">
+        <span class="logo-glyph">✦</span>
+        <h1 class="site-title">Dreamr</h1>
+      </div>
+      <p class="site-subtitle">A sanctuary for your sleeping visions</p>
+      <button class="btn-primary" id="open-modal">+ Record a Dream</button>
+    </div>
+  </header>
+
+  <!-- ── FEED ── -->
+  <main class="main-content">
+    <div class="feed-header">
+      <span class="feed-label">Dream Feed</span>
+      <span class="dream-count"><%= dreams.length %> vision<%= dreams.length !== 1 ? 's' : '' %></span>
+    </div>
+
+    <div class="feed" id="dream-feed">
+      <% if (dreams.length === 0) { %>
+        <div class="empty-state" id="empty-state">
+          <div class="empty-icon">🌙</div>
+          <p class="empty-title">No dreams yet</p>
+          <p class="empty-sub">Be the first to share a vision from beyond.</p>
+        </div>
+      <% } %>
+
+      <% dreams.forEach(dream => { %>
+        <article class="dream-card" data-id="<%= dream._id %>">
+          <div class="card-header">
+            <div class="user-avatar"><%= dream.username.charAt(0).toUpperCase() %></div>
+            <div class="user-info">
+              <span class="username">@<%= dream.username %></span>
+              <span class="timestamp" data-time="<%= dream.createdAt.toISOString() %>"></span>
+            </div>
+            <button
+              class="delete-btn"
+              aria-label="Delete dream"
+              onclick="deleteDream('<%= dream._id %>', this.closest('.dream-card'))"
+            >&#x2715;</button>
+          </div>
+          <p class="dream-description"><%= dream.description %></p>
+          <div class="dream-image-wrap">
+            <img src="<%= dream.imageData %>" alt="AI-generated dream scene" class="dream-image" />
+          </div>
+        </article>
+      <% }) %>
+    </div>
+  </main>
+
+  <!-- ── MODAL ── -->
+  <div class="modal-overlay hidden" id="modal-overlay">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+
+      <button class="modal-close" id="close-modal" aria-label="Close">&#x2715;</button>
+      <h2 class="modal-title" id="modal-title">✦ Record a Dream</h2>
+      <p class="modal-subtitle">Describe what you saw — an image will be conjured from your words.</p>
+
+      <form id="dream-form" novalidate>
+        <div class="form-group">
+          <label for="username">Your Name</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Enter your name..."
+            maxlength="50"
+            required
+            autocomplete="off"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="description">Dream Description <span class="label-note">max 70 words</span></label>
+          <textarea
+            id="description"
+            name="description"
+            placeholder="I was standing at the edge of a violet sea when suddenly the sky folded open..."
+            rows="5"
+            required
+          ></textarea>
+          <div class="word-counter" id="word-counter">0 / 70 words</div>
+        </div>
+
+        <button type="submit" class="btn-primary btn-submit" id="submit-btn">
+          ✦ Conjure Dream
+        </button>
+      </form>
+
+      <!-- Loading overlay inside modal -->
+      <div class="loading-overlay hidden" id="loading-overlay">
+        <div class="loading-content">
+          <div class="loading-ring"></div>
+          <p class="loading-title">Weaving your vision...</p>
+          <p class="loading-sub">The dream is taking shape</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>
