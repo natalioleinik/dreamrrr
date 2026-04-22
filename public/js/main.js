@@ -162,18 +162,16 @@ function buildCard(dream) {
   const initial = dream.username.charAt(0).toUpperCase();
 
   art.innerHTML = `
-    <div class="card-header">
-      <div class="user-avatar">${initial}</div>
-      <div class="user-info">
+    <img src="${dream.imageData}" alt="AI-generated dream scene" class="dream-image" />
+    <div class="card-overlay">
+      <div class="overlay-top">
+        <div class="user-avatar">${initial}</div>
         <span class="username">@${escHtml(dream.username)}</span>
         <span class="timestamp">just now</span>
       </div>
+      <p class="dream-description">${escHtml(dream.description)}</p>
       <button class="delete-btn" aria-label="Delete dream"
-        onclick="deleteDream('${dream._id}', this.closest('.dream-card'))">&#x2715;</button>
-    </div>
-    <p class="dream-description">${escHtml(dream.description)}</p>
-    <div class="dream-image-wrap">
-      <img src="${dream.imageData}" alt="AI-generated dream scene" class="dream-image" />
+        onclick="deleteDream('${dream._id}', this.closest('.dream-card'))">&#x2715; Delete</button>
     </div>
   `;
   return art;

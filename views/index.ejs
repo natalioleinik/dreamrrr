@@ -45,21 +45,19 @@
 
       <% dreams.forEach(dream => { %>
         <article class="dream-card" data-id="<%= dream._id %>">
-          <div class="card-header">
-            <div class="user-avatar"><%= dream.username.charAt(0).toUpperCase() %></div>
-            <div class="user-info">
+          <img src="<%= dream.imageData %>" alt="AI-generated dream scene" class="dream-image" />
+          <div class="card-overlay">
+            <div class="overlay-top">
+              <div class="user-avatar"><%= dream.username.charAt(0).toUpperCase() %></div>
               <span class="username">@<%= dream.username %></span>
               <span class="timestamp" data-time="<%= dream.createdAt.toISOString() %>"></span>
             </div>
+            <p class="dream-description"><%= dream.description %></p>
             <button
               class="delete-btn"
               aria-label="Delete dream"
               onclick="deleteDream('<%= dream._id %>', this.closest('.dream-card'))"
             >&#x2715;</button>
-          </div>
-          <p class="dream-description"><%= dream.description %></p>
-          <div class="dream-image-wrap">
-            <img src="<%= dream.imageData %>" alt="AI-generated dream scene" class="dream-image" />
           </div>
         </article>
       <% }) %>
