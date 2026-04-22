@@ -17,15 +17,16 @@ if (!process.env.MONGODB_URI) {
   process.exit(1);
 }
 
+const dreamRoutes = require('./routes/dreams');
+app.use('/', dreamRoutes);
+
 mongoose
   .connect(process.env.MONGODB_URI)
-  .then(() => console.log('Connected to MongoDB'))
+  .then(() => {
+    console.log('Connected to MongoDB');
+    app.listen(PORT, () => console.log(`Dreamr running on http://localhost:${PORT}`));
+  })
   .catch((err) => {
     console.error('MongoDB connection failed:', err.message);
     process.exit(1);
   });
-
-const dreamRoutes = require('./routes/dreams');
-app.use('/', dreamRoutes);
-
-app.listen(PORT, () => console.log(`Dreamr running on http://localhost:${PORT}`));
